@@ -32,20 +32,15 @@ public class QuestionService {
 
   @Transactional
   public Question createQuestion(UUID examId, String text, int score, List<ChoiceDTO> choicesDTO) {
-    try {
-      Exam exam = examRepository.findById(examId)
-          .orElseThrow(() -> new EntityNotFoundException("Exam not found with ID: " + examId));
-      Question newQuestion = new Question(text, score, exam);
-      questionRepository.save(newQuestion);
-      List<Choice> choices = choicesDTO.stream()
-          .map(dto -> new Choice(dto.getText(), dto.getIsCorrect(), newQuestion))
-          .collect(Collectors.toList());
-      choiceRepository.saveAll(choices);
-      return newQuestion;
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      throw e;
-    }
+    Exam exam = examRepository.findById(examId)
+        .orElseThrow(() -> new EntityNotFoundException("Exam not found with ID: " + examId));
+    Question newQuestion = new Question(text, score, exam);
+    questionRepository.save(newQuestion);
+    List<Choice> choices = choicesDTO.stream()
+        .map(dto -> new Choice(dto.getText(), dto.getIsCorrect(), newQuestion))
+        .collect(Collectors.toList());
+    choiceRepository.saveAll(choices);
+    return newQuestion;
   }
 
   public List<Question> getAllQuestionsByExam(UUID examId) {
