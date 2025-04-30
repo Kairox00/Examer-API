@@ -1,9 +1,8 @@
 package com.romeh.examer.service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -14,6 +13,9 @@ import com.romeh.examer.model.Question;
 import com.romeh.examer.repository.ChoiceRepository;
 import com.romeh.examer.repository.ExamRepository;
 import com.romeh.examer.repository.QuestionRepository;
+
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 @Service
 public class QuestionService {
@@ -28,25 +30,26 @@ public class QuestionService {
     this.choiceRepository = choiceRepository;
   }
 
+  @Transactional
   public Question createQuestion(UUID examId, String text, int score, List<ChoiceDTO> choicesDTO) {
-    Exam exam = examRepository.findById(examId).orElseThrow();
-    Question newQuestion = new Question(text, score, exam);
-    questionRepository.save(newQuestion);
-    Set<Choice> newChoices = new HashSet<Choice>();
-    for (ChoiceDTO choice : choicesDTO) {
-      Choice newChoice = new Choice(choice.getText(), choice.getIsCorrect(), newQuestion);
-      choiceRepository.save(newChoice);
-      newChoices.add(newChoice);
+    try {
+      Exam exam = examRepository.findById(examId)
+          .orElseThrow(() -> new EntityNotFoundException("Exam not found with ID: " + examId));
+      Question newQuestion = new Question(text, score, exam);
+      questionRepository.save(newQuestion);
+      List<Choice> choices = choicesDTO.stream()
+          .map(dto -> new Choice(dto.getText(), dto.getIsCorrect(), newQuestion))
+          .collect(Collectors.toList());
+      choiceRepository.saveAll(choices);
+      return newQuestion;
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      throw e;
     }
-    newQuestion.setChoices(newChoices);
-    questionRepository.save(newQuestion);
-    exam.getQuestions().add(newQuestion);
-    examRepository.save(exam);
-    return newQuestion;
   }
 
   public List<Question> getAllQuestionsByExam(UUID examId) {
-    List<Question> questions = questionRepository.findAllByExamId(examId);
-    return questions;
+    Exam exam = examRepository.findById(examId).orElseThrow();
+    return exam.getQuestions();
   }
 }

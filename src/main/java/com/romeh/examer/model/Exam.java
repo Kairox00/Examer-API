@@ -1,10 +1,12 @@
 package com.romeh.examer.model;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,10 +30,10 @@ public class Exam {
 
   private String name;
 
-  @ManyToMany(mappedBy = "exams")
-  private Set<Student> students = new HashSet<>();
+  @ManyToMany(mappedBy = "exams", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private Set<Student> students;
 
-  @OneToMany(mappedBy = "exam")
-  private Set<Question> questions = new HashSet<>();
+  @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<Question> questions;;
 
 }

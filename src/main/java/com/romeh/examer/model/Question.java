@@ -1,9 +1,12 @@
 package com.romeh.examer.model;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,6 +25,7 @@ public class Question {
     this.text = text;
     this.score = score;
     this.exam = exam;
+    this.choices = new ArrayList<>();
   }
 
   @Id
@@ -36,6 +40,6 @@ public class Question {
   @JoinColumn(name = "exam_id")
   private Exam exam;
 
-  @OneToMany(mappedBy = "question")
-  private Set<Choice> choices;
+  @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<Choice> choices;
 }

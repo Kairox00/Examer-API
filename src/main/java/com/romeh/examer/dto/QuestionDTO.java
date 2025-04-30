@@ -1,8 +1,6 @@
 package com.romeh.examer.dto;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import com.romeh.examer.model.Choice;
@@ -24,9 +22,8 @@ public class QuestionDTO {
     questionDTO.setText(question.getText());
     questionDTO.setScore(question.getScore());
     questionDTO.setId(question.getId());
-    Set<Choice> choicesSet = question.getChoices();
-    List<Choice> choicesList = new ArrayList<>(choicesSet);
-    questionDTO.setChoices(ChoiceDTO.fromChoiceList(choicesList));
+    List<Choice> choices = question.getChoices();
+    questionDTO.setChoices(ChoiceDTO.fromChoiceList(choices));
     return questionDTO;
   }
 
