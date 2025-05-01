@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.romeh.examer.dto.ExamAttemptDTO;
 import com.romeh.examer.dto.StudentDTO;
-import com.romeh.examer.dto.StudentExamDTO;
+import com.romeh.examer.model.ExamAttempt;
 import com.romeh.examer.model.Student;
-import com.romeh.examer.model.StudentExam;
 import com.romeh.examer.service.StudentExamService;
 
 @RestController
 @RequestMapping("/exams/{examId}/students")
-public class StudentExamController {
+public class ExamAttemptController {
   private final StudentExamService studentExamService;
 
-  public StudentExamController(StudentExamService studentExamService) {
+  public ExamAttemptController(StudentExamService studentExamService) {
     this.studentExamService = studentExamService;
   }
 
@@ -37,15 +37,15 @@ public class StudentExamController {
 
   @PostMapping("")
   public ResponseEntity<Void> startExamForStudent(@RequestBody StudentDTO studentDTO, @PathVariable UUID examId) {
-    StudentExam studentExam = studentExamService.createStudentExam(studentDTO.getId(), examId);
+    ExamAttempt studentExam = studentExamService.createStudentExam(studentDTO.getId(), examId);
     String location = "/exams/" + studentExam.getExam().getId() + "/students/" + studentExam.getStudent().getId();
     return ResponseEntity.created(URI.create(location)).build();
   }
 
   @PatchMapping("/{studentId}")
-  public ResponseEntity<StudentExamDTO> submitExam(@PathVariable UUID studentId, @PathVariable UUID examId) {
-    StudentExam studentExam = studentExamService.submitExam(studentId, examId);
-    StudentExamDTO studentExamDTO = new StudentExamDTO(studentExam);
+  public ResponseEntity<ExamAttemptDTO> submitExam(@PathVariable UUID studentId, @PathVariable UUID examId) {
+    ExamAttempt studentExam = studentExamService.submitExam(studentId, examId);
+    ExamAttemptDTO studentExamDTO = new ExamAttemptDTO(studentExam);
     return ResponseEntity.ok().body(studentExamDTO);
   }
 

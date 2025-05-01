@@ -29,4 +29,5 @@ public class StudentService {
   public Student getStudent(UUID id) {
     return studentRepository.findById(id).orElseThrow();
   }
+
 }

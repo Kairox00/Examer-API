@@ -10,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.romeh.examer.model.Answer;
 import com.romeh.examer.model.Choice;
 import com.romeh.examer.model.Exam;
+import com.romeh.examer.model.ExamAttempt;
+import com.romeh.examer.model.ExamAttemptId;
 import com.romeh.examer.model.Question;
 import com.romeh.examer.model.Student;
-import com.romeh.examer.model.StudentExam;
-import com.romeh.examer.model.StudentExamId;
 import com.romeh.examer.repository.AnswerRepository;
 import com.romeh.examer.repository.ExamRepository;
 import com.romeh.examer.repository.StudentExamRepository;
@@ -35,20 +35,20 @@ public class StudentExamService {
     this.answerRepository = answerRepository;
   }
 
-  public StudentExam createStudentExam(UUID studentId, UUID examId) {
-    if (studentExamRepository.existsById(new StudentExamId(studentId, examId))) {
+  public ExamAttempt createStudentExam(UUID studentId, UUID examId) {
+    if (studentExamRepository.existsById(new ExamAttemptId(studentId, examId))) {
       throw new IllegalArgumentException("Student has already been assigned to this exam");
     }
     Student student = studentRepository.findById(studentId).orElseThrow();
     Exam exam = examRepository.findById(examId).orElseThrow();
-    StudentExam newStudentExam = new StudentExam(student, exam);
+    ExamAttempt newStudentExam = new ExamAttempt(student, exam);
     studentExamRepository.save(newStudentExam);
     return newStudentExam;
   }
 
   @Transactional
-  public StudentExam submitExam(UUID studentId, UUID examId) {
-    StudentExam studentExam = studentExamRepository.findById(new StudentExamId(studentId, examId)).orElseThrow();
+  public ExamAttempt submitExam(UUID studentId, UUID examId) {
+    ExamAttempt studentExam = studentExamRepository.findById(new ExamAttemptId(studentId, examId)).orElseThrow();
     if (studentExam.getSubmittedAt() != null) {
       throw new IllegalArgumentException("Student has already submitted this exam");
     }
@@ -64,8 +64,8 @@ public class StudentExamService {
   }
 
   public List<Student> getAllExamStudents(UUID examId) {
-    List<StudentExam> studentExams = studentExamRepository.findAllByExamId(examId);
-    List<Student> students = studentExams.stream().map(StudentExam::getStudent).toList();
+    List<ExamAttempt> studentExams = studentExamRepository.findAllByExamId(examId);
+    List<Student> students = studentExams.stream().map(ExamAttempt::getStudent).toList();
     return students;
   }
 }

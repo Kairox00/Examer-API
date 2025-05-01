@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "student_exam")
 @NoArgsConstructor
 @Data
-public class StudentExam {
+public class ExamAttempt {
   @EmbeddedId
-  private StudentExamId id;
+  private ExamAttemptId id;
 
   @ManyToOne
   @MapsId("studentId")
@@ -40,8 +40,8 @@ public class StudentExam {
 
   private int score;
 
-  public StudentExam(Student student, Exam exam) {
-    this.id = new StudentExamId(student.getId(), exam.getId());
+  public ExamAttempt(Student student, Exam exam) {
+    this.id = new ExamAttemptId(student.getId(), exam.getId());
     this.student = student;
     this.exam = exam;
     this.score = 0;

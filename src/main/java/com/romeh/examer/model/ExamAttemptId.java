@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @Data
 @NoArgsConstructor
-public class StudentExamId implements Serializable {
+public class ExamAttemptId implements Serializable {
   @Column(name = "student_id")
   private UUID studentId;
 
   @Column(name = "exam_id")
   private UUID examId;
 
-  public StudentExamId(UUID studentId, UUID examId) {
+  public ExamAttemptId(UUID studentId, UUID examId) {
     this.studentId = studentId;
     this.examId = examId;
   }

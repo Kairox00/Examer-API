@@ -1,5 +1,6 @@
 package com.romeh.examer.dto;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.romeh.examer.model.Exam;
@@ -16,5 +17,9 @@ public class ExamDTO {
   public ExamDTO(Exam exam) {
     this.id = exam.getId();
     this.name = exam.getName();
+  }
+
+  public static List<ExamDTO> fromExamList(List<Exam> exams) {
+    return exams.stream().map(ExamDTO::new).toList();
   }
 }

@@ -5,9 +5,9 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.romeh.examer.model.StudentExam;
-import com.romeh.examer.model.StudentExamId;
+import com.romeh.examer.model.ExamAttempt;
+import com.romeh.examer.model.ExamAttemptId;
 
-public interface StudentExamRepository extends JpaRepository<StudentExam, StudentExamId> {
-  public List<StudentExam> findAllByExamId(UUID examId);
+public interface StudentExamRepository extends JpaRepository<ExamAttempt, ExamAttemptId> {
+  public List<ExamAttempt> findAllByExamId(UUID examId);
 }
