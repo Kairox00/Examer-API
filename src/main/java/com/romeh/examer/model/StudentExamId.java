@@ -6,9 +6,11 @@ import java.util.UUID;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Embeddable
 @EqualsAndHashCode
+@NoArgsConstructor
 public class StudentExamId implements Serializable {
   @Column(name = "student_id")
   private UUID studentId;

@@ -26,14 +26,14 @@ public class QuestionController {
 
   }
 
-  @GetMapping("/")
+  @GetMapping("")
   public List<QuestionDTO> getAllExamQuestions(@PathVariable UUID examId) {
     List<Question> questions = questionService.getAllQuestionsByExam(examId);
     List<QuestionDTO> questionsDTO = QuestionDTO.fromQuestionList(questions);
     return questionsDTO;
   }
 
-  @PostMapping("/")
+  @PostMapping("")
   public ResponseEntity<Void> addQuestion(@RequestBody QuestionDTO body, @PathVariable UUID examId) {
     Question question = questionService.createQuestion(examId, body.getText(), body.getScore(),
         body.getChoices());

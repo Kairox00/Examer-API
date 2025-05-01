@@ -24,12 +24,12 @@ public class ExamController {
     this.examService = examService;
   }
 
-  @GetMapping("/")
+  @GetMapping("")
   public List<Exam> getExams() {
     return examService.getAllExams();
   }
 
-  @PostMapping("/")
+  @PostMapping("")
   public ResponseEntity<Void> createExam(@RequestBody String name) {
     Exam exam = examService.createExam(name);
     String location = "/exams/" + exam.getId();

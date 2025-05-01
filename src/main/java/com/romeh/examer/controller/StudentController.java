@@ -25,14 +25,14 @@ public class StudentController {
     this.studentService = studentService;
   }
 
-  @GetMapping("/")
+  @GetMapping("")
   public List<StudentDTO> getAllStudents() {
     List<Student> students = studentService.getAllStudents();
     List<StudentDTO> studentsDTO = StudentDTO.fromStudentList(students);
     return studentsDTO;
   }
 
-  @PostMapping("/")
+  @PostMapping("")
   public ResponseEntity<Void> createStudent(@RequestBody StudentDTO body) {
     Student newStudent = studentService.createStudent(body.getName());
     String location = "/students/" + newStudent.getId();
