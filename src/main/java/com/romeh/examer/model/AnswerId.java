@@ -1,6 +1,5 @@
 package com.romeh.examer.model;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -11,16 +10,19 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @Data
 @NoArgsConstructor
-public class StudentExamId implements Serializable {
+public class AnswerId {
   @Column(name = "student_id")
   private UUID studentId;
 
   @Column(name = "exam_id")
   private UUID examId;
 
-  public StudentExamId(UUID studentId, UUID examId) {
+  @Column(name = "question_id")
+  private UUID questionId;
+
+  public AnswerId(UUID studentId, UUID examId, UUID questionId) {
     this.studentId = studentId;
     this.examId = examId;
+    this.questionId = questionId;
   }
-
 }

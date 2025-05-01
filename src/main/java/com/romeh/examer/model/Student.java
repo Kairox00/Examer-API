@@ -1,6 +1,6 @@
 package com.romeh.examer.model;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.lang.NonNull;
@@ -33,6 +33,6 @@ public class Student {
 
   @ManyToMany
   @JoinTable(name = "student_exam", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "exam_id"))
-  private Set<Exam> exams;
+  private List<Exam> exams;
 
 }

@@ -1,26 +1,19 @@
 package com.romeh.examer.model;
 
-import java.time.LocalDateTime;
-
-import org.hibernate.annotations.CreationTimestamp;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
-import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "student_exam")
-@NoArgsConstructor
 @Data
-public class StudentExam {
+@NoArgsConstructor
+public class Answer {
   @EmbeddedId
-  private StudentExamId id;
+  private AnswerId id;
 
   @ManyToOne
   @MapsId("studentId")
@@ -32,15 +25,19 @@ public class StudentExam {
   @JoinColumn(name = "exam_id")
   private Exam exam;
 
-  @CreationTimestamp
-  @Column(name = "started_at", nullable = false, updatable = false)
-  private LocalDateTime startedAt;
+  @ManyToOne
+  @MapsId("questionId")
+  @JoinColumn(name = "question_id")
+  private Question question;
 
-  private LocalDateTime submittedAt;
+  @ManyToOne
+  private Choice choice;
 
-  public StudentExam(Student student, Exam exam) {
-    this.id = new StudentExamId(student.getId(), exam.getId());
+  public Answer(Exam exam, Student student, Question question, Choice choice) {
+    this.id = new AnswerId(exam.getId(), student.getId(), question.getId());
     this.student = student;
     this.exam = exam;
+    this.question = question;
+    this.choice = choice;
   }
 }

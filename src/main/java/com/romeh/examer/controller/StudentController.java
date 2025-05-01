@@ -40,9 +40,9 @@ public class StudentController {
   }
 
   @GetMapping("/{id}")
-  public StudentDTO getMethodName(@PathVariable UUID id) {
+  public StudentDTO getStudentById(@PathVariable UUID id) {
     Student student = studentService.getStudent(id);
-    StudentDTO studentDTO = StudentDTO.fromStudent(student);
+    StudentDTO studentDTO = new StudentDTO(student);
     return studentDTO;
   }
 

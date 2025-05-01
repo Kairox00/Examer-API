@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.romeh.examer.dto.ExamDTO;
 import com.romeh.examer.model.Exam;
 import com.romeh.examer.service.ExamService;
 
@@ -30,8 +31,8 @@ public class ExamController {
   }
 
   @PostMapping("")
-  public ResponseEntity<Void> createExam(@RequestBody String name) {
-    Exam exam = examService.createExam(name);
+  public ResponseEntity<Void> createExam(@RequestBody ExamDTO examDTO) {
+    Exam exam = examService.createExam(examDTO.getName());
     String location = "/exams/" + exam.getId();
     return ResponseEntity.created(URI.create(location)).build();
   }

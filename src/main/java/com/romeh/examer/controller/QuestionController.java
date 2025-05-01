@@ -34,10 +34,12 @@ public class QuestionController {
   }
 
   @PostMapping("")
-  public ResponseEntity<Void> addQuestion(@RequestBody QuestionDTO body, @PathVariable UUID examId) {
-    Question question = questionService.createQuestion(examId, body.getText(), body.getScore(),
-        body.getChoices());
-    String location = "/exams/" + question.getExam().getId() + "/question/" + question.getId();
+  public ResponseEntity<Void> addQuestion(@RequestBody QuestionDTO body,
+      @PathVariable UUID examId) {
+    Question question = questionService.createQuestion(examId, body.getText(),
+        body.getScore(), body.getChoices());
+    String location = "/exams/" + question.getExam().getId() + "/question/"
+        + question.getId();
     return ResponseEntity.created(URI.create(location)).build();
   }
 

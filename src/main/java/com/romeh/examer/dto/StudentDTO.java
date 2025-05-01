@@ -4,28 +4,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.romeh.examer.model.Exam;
 import com.romeh.examer.model.Student;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class StudentDTO {
   private UUID id;
   private String name;
-  private List<UUID> exams = new ArrayList<>();
+  private List<UUID> exams;
 
-  public StudentDTO(UUID id, String name) {
+  public StudentDTO(UUID id) {
     this.id = id;
-    this.name = name;
   }
 
-  public static StudentDTO fromStudent(Student student) {
-    return new StudentDTO(student.getId(), student.getName());
+  public StudentDTO(Student student) {
+    this.id = student.getId();
+    this.name = student.getName();
+    this.exams = student.getExams().stream().map(Exam::getId).toList();
   }
 
   public static List<StudentDTO> fromStudentList(List<Student> students) {
-    return students.stream().map(StudentDTO::fromStudent).toList();
+    List<StudentDTO> studentsDTO = new ArrayList<>();
+    for (Student student : students) {
+      studentsDTO.add(new StudentDTO(student));
+    }
+    return studentsDTO;
   }
 }
