@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,6 +29,7 @@ public class Exam {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
+  @NonNull
   private String name;
 
   @ManyToMany(mappedBy = "exams", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.romeh.examer.dto.ChoiceDTO;
 import com.romeh.examer.model.Choice;
@@ -15,7 +16,6 @@ import com.romeh.examer.repository.ExamRepository;
 import com.romeh.examer.repository.QuestionRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 
 @Service
 public class QuestionService {
