@@ -38,9 +38,12 @@ public class StudentExam {
 
   private LocalDateTime submittedAt;
 
+  private int score;
+
   public StudentExam(Student student, Exam exam) {
     this.id = new StudentExamId(student.getId(), exam.getId());
     this.student = student;
     this.exam = exam;
+    this.score = 0;
   }
 }

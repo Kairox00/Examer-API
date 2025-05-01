@@ -43,8 +43,8 @@ public class StudentExamController {
   }
 
   @PatchMapping("/{studentId}")
-  public ResponseEntity<StudentExamDTO> addSubmissionDate(@PathVariable UUID studentId, @PathVariable UUID examId) {
-    StudentExam studentExam = studentExamService.addSubmissionDate(studentId, examId);
+  public ResponseEntity<StudentExamDTO> submitExam(@PathVariable UUID studentId, @PathVariable UUID examId) {
+    StudentExam studentExam = studentExamService.submitExam(studentId, examId);
     StudentExamDTO studentExamDTO = new StudentExamDTO(studentExam);
     return ResponseEntity.ok().body(studentExamDTO);
   }
