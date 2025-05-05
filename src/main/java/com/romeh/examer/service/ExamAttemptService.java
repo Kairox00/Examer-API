@@ -15,18 +15,18 @@ import com.romeh.examer.model.ExamAttemptId;
 import com.romeh.examer.model.Question;
 import com.romeh.examer.model.Student;
 import com.romeh.examer.repository.AnswerRepository;
+import com.romeh.examer.repository.ExamAttemptRepository;
 import com.romeh.examer.repository.ExamRepository;
-import com.romeh.examer.repository.StudentExamRepository;
 import com.romeh.examer.repository.StudentRepository;
 
 @Service
-public class StudentExamService {
-  private final StudentExamRepository studentExamRepository;
+public class ExamAttemptService {
+  private final ExamAttemptRepository studentExamRepository;
   private final ExamRepository examRepository;
   private final StudentRepository studentRepository;
   private final AnswerRepository answerRepository;
 
-  public StudentExamService(StudentExamRepository studentExamRepository,
+  public ExamAttemptService(ExamAttemptRepository studentExamRepository,
       ExamRepository examRepository, StudentRepository studentRepository,
       AnswerRepository answerRepository) {
     this.studentExamRepository = studentExamRepository;
@@ -35,7 +35,7 @@ public class StudentExamService {
     this.answerRepository = answerRepository;
   }
 
-  public ExamAttempt createStudentExam(UUID studentId, UUID examId) {
+  public ExamAttempt createExamAttempt(UUID studentId, UUID examId) {
     if (studentExamRepository.existsById(new ExamAttemptId(studentId, examId))) {
       throw new IllegalArgumentException("Student has already been assigned to this exam");
     }

@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.romeh.examer.model.ExamAttempt;
 import com.romeh.examer.model.ExamAttemptId;
 
-public interface StudentExamRepository extends JpaRepository<ExamAttempt, ExamAttemptId> {
+public interface ExamAttemptRepository extends JpaRepository<ExamAttempt, ExamAttemptId> {
   public List<ExamAttempt> findAllByExamId(UUID examId);
 }

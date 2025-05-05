@@ -25,12 +25,19 @@ public class AnswerService {
     this.studentRepository = studentRepository;
   };
 
-  public Answer submitAnswer(UUID studentId, UUID choiceId) {
+  public Answer submitAnswer(UUID studentId, UUID examId, UUID choiceId) {
     Choice choice = choiceRepository.findById(choiceId).orElseThrow();
-    Student student = studentRepository.findById(studentId).orElseThrow();
-    Answer newAnswer = new Answer(choice.getQuestion().getExam(), student, choice.getQuestion(), choice);
-    answerRepository.save(newAnswer);
-    return newAnswer;
+    Answer previousAnswer = answerRepository.findByStudentIdAndQuestionId(studentId, choice.getQuestion().getId());
+    if (previousAnswer != null) {
+      previousAnswer.setChoice(choice);
+      answerRepository.save(previousAnswer);
+      return previousAnswer;
+    } else {
+      Student student = studentRepository.findById(studentId).orElseThrow();
+      Answer newAnswer = new Answer(choice.getQuestion().getExam(), student, choice.getQuestion(), choice);
+      answerRepository.save(newAnswer);
+      return newAnswer;
+    }
   };
 
   public List<Answer> getAllStudentAnswersForExam(UUID studentId, UUID examId) {

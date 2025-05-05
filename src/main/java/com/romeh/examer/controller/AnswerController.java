@@ -34,8 +34,8 @@ public class AnswerController {
 
   @PostMapping("")
   public ResponseEntity<Void> submitAnswer(@RequestBody AnswerDTO body,
-      @PathVariable UUID studentId) {
-    Answer answer = answerService.submitAnswer(studentId, body.getChoice().getId());
+      @PathVariable UUID studentId, @PathVariable UUID examId) {
+    Answer answer = answerService.submitAnswer(studentId, examId, body.getChoice().getId());
     return ResponseEntity.created(null).build();
   }
 

@@ -15,4 +15,6 @@ public interface AnswerRepository
     public List<Answer> findAllByStudentId(UUID studentId);
 
     public List<Answer> findAllByStudentIdAndExamId(UUID studentId, UUID examId);
+
+    public Answer findByStudentIdAndQuestionId(UUID studentId, UUID questionId);
 }
