@@ -32,7 +32,7 @@ public class Student {
   private String name;
 
   @ManyToMany
-  @JoinTable(name = "student_exam", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "exam_id"))
+  @JoinTable(name = "exam_attempt", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "exam_id"))
   private List<Exam> exams;
 
 }

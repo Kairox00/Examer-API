@@ -26,8 +26,8 @@ public class ExamController {
   }
 
   @GetMapping("")
-  public List<Exam> getExams() {
-    return examService.getAllExams();
+  public List<ExamDTO> getExams() {
+    return ExamDTO.fromExamList(examService.getAllExams());
   }
 
   @PostMapping("")

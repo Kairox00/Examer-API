@@ -13,10 +13,14 @@ import lombok.NoArgsConstructor;
 public class ExamDTO {
   private UUID id;
   private String name;
+  private int duration;
+  private int numberOfQuestions;
 
   public ExamDTO(Exam exam) {
     this.id = exam.getId();
     this.name = exam.getName();
+    this.duration = exam.getDuration();
+    this.numberOfQuestions = exam.getQuestions().size();
   }
 
   public static List<ExamDTO> fromExamList(List<Exam> exams) {

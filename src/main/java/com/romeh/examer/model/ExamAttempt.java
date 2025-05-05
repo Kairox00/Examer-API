@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -15,7 +16,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "student_exam")
+@Table(name = "exam_attempt")
 @NoArgsConstructor
 @Data
 public class ExamAttempt {
@@ -33,11 +34,13 @@ public class ExamAttempt {
   private Exam exam;
 
   @CreationTimestamp
-  @Column(name = "started_at", nullable = false, updatable = false)
+  @Column(name = "started_at", nullable = true, updatable = false)
   private LocalDateTime startedAt;
 
+  @Nullable
   private LocalDateTime submittedAt;
 
+  @Nullable
   private int score;
 
   public ExamAttempt(Student student, Exam exam) {

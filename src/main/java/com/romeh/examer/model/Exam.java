@@ -1,7 +1,6 @@
 package com.romeh.examer.model;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import io.micrometer.common.lang.NonNull;
@@ -33,9 +32,12 @@ public class Exam {
   private String name;
 
   @ManyToMany(mappedBy = "exams", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private Set<Student> students;
+  private List<Student> students;
 
   @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private List<Question> questions;;
+  private List<Question> questions;
+
+  @NonNull
+  private int duration;
 
 }
