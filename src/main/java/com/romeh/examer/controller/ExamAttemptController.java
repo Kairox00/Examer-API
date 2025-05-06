@@ -42,7 +42,14 @@ public class ExamAttemptController {
     return ResponseEntity.created(URI.create(location)).build();
   }
 
-  @PutMapping("/{studentId}")
+  @PutMapping("/{studentId}/start")
+  public ResponseEntity<ExamAttemptDTO> startExam(@PathVariable UUID studentId, @PathVariable UUID examId) {
+    ExamAttempt studentExam = studentExamService.startExam(studentId, examId);
+    ExamAttemptDTO studentExamDTO = new ExamAttemptDTO(studentExam);
+    return ResponseEntity.ok().body(studentExamDTO);
+  }
+
+  @PutMapping("/{studentId}/submit")
   public ResponseEntity<ExamAttemptDTO> submitExam(@PathVariable UUID studentId, @PathVariable UUID examId) {
     ExamAttempt studentExam = studentExamService.submitExam(studentId, examId);
     ExamAttemptDTO studentExamDTO = new ExamAttemptDTO(studentExam);

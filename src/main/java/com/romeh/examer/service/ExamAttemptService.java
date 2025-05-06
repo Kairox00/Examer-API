@@ -21,34 +21,44 @@ import com.romeh.examer.repository.StudentRepository;
 
 @Service
 public class ExamAttemptService {
-  private final ExamAttemptRepository studentExamRepository;
+  private final ExamAttemptRepository examAttemptRepository;
   private final ExamRepository examRepository;
   private final StudentRepository studentRepository;
   private final AnswerRepository answerRepository;
 
-  public ExamAttemptService(ExamAttemptRepository studentExamRepository,
+  public ExamAttemptService(ExamAttemptRepository examAttemptRepository,
       ExamRepository examRepository, StudentRepository studentRepository,
       AnswerRepository answerRepository) {
-    this.studentExamRepository = studentExamRepository;
+    this.examAttemptRepository = examAttemptRepository;
     this.examRepository = examRepository;
     this.studentRepository = studentRepository;
     this.answerRepository = answerRepository;
   }
 
   public ExamAttempt createExamAttempt(UUID studentId, UUID examId) {
-    if (studentExamRepository.existsById(new ExamAttemptId(studentId, examId))) {
-      throw new IllegalArgumentException("Student has already been assigned to this exam");
+    ExamAttempt existingAttempt = examAttemptRepository.findById(new ExamAttemptId(studentId, examId)).orElse(null);
+    if (existingAttempt.getSubmittedAt() != null) {
+      throw new IllegalArgumentException("Student has already finished  this exam");
     }
     Student student = studentRepository.findById(studentId).orElseThrow();
     Exam exam = examRepository.findById(examId).orElseThrow();
     ExamAttempt newStudentExam = new ExamAttempt(student, exam);
-    studentExamRepository.save(newStudentExam);
+    examAttemptRepository.save(newStudentExam);
     return newStudentExam;
+  }
+
+  public ExamAttempt startExam(UUID studentId, UUID examId) {
+    ExamAttempt existingAttempt = examAttemptRepository.findById(new ExamAttemptId(studentId, examId)).orElseThrow();
+    if (existingAttempt.getStartedAt() == null) {
+      existingAttempt.setStartedAt(LocalDateTime.now());
+      examAttemptRepository.save(existingAttempt);
+    }
+    return existingAttempt;
   }
 
   @Transactional
   public ExamAttempt submitExam(UUID studentId, UUID examId) {
-    ExamAttempt studentExam = studentExamRepository.findById(new ExamAttemptId(studentId, examId)).orElseThrow();
+    ExamAttempt studentExam = examAttemptRepository.findById(new ExamAttemptId(studentId, examId)).orElseThrow();
     if (studentExam.getSubmittedAt() != null) {
       throw new IllegalArgumentException("Student has already submitted this exam");
     }
@@ -59,12 +69,12 @@ public class ExamAttemptService {
         .reduce(0, Integer::sum);
     studentExam.setScore(score);
     studentExam.setSubmittedAt(LocalDateTime.now());
-    studentExamRepository.save(studentExam);
+    examAttemptRepository.save(studentExam);
     return studentExam;
   }
 
   public List<Student> getAllExamStudents(UUID examId) {
-    List<ExamAttempt> studentExams = studentExamRepository.findAllByExamId(examId);
+    List<ExamAttempt> studentExams = examAttemptRepository.findAllByExamId(examId);
     List<Student> students = studentExams.stream().map(ExamAttempt::getStudent).toList();
     return students;
   }

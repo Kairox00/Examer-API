@@ -2,10 +2,7 @@ package com.romeh.examer.model;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import io.micrometer.common.lang.Nullable;
-import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -33,8 +30,7 @@ public class ExamAttempt {
   @JoinColumn(name = "exam_id")
   private Exam exam;
 
-  @CreationTimestamp
-  @Column(name = "started_at", nullable = true, updatable = false)
+  @Nullable
   private LocalDateTime startedAt;
 
   @Nullable
