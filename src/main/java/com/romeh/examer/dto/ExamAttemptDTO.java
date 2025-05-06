@@ -13,11 +13,13 @@ public class ExamAttemptDTO {
   private UUID examId;
   private LocalDateTime startedAt;
   private LocalDateTime submittedAt;
+  private int score;
 
   public ExamAttemptDTO(ExamAttempt studentExam) {
     this.studentId = studentExam.getStudent().getId();
     this.examId = studentExam.getExam().getId();
     this.startedAt = studentExam.getStartedAt();
     this.submittedAt = studentExam.getSubmittedAt();
+    this.score = studentExam.getScore();
   }
 }

@@ -78,4 +78,8 @@ public class ExamAttemptService {
     List<Student> students = studentExams.stream().map(ExamAttempt::getStudent).toList();
     return students;
   }
+
+  public ExamAttempt getExamAttempt(UUID studentId, UUID examId) {
+    return examAttemptRepository.findById(new ExamAttemptId(studentId, examId)).orElseThrow();
+  }
 }
